@@ -26,7 +26,7 @@ const safetySettings = [
 export async function getGeminiResponse(prompt: string) {
   const models = ['gemini-1.5-pro-002', 'gemini-1.5-flash-002']
   let response: string | null = null
-  let error: Error | null = null
+  let error: Error | null = null  // eslint-disable-next-line prefer-const
 
   for (const modelName of models) {
     try {
@@ -39,17 +39,17 @@ export async function getGeminiResponse(prompt: string) {
       if (e instanceof Error && !e.toString().includes('quota')) {
         throw e;
       } else if (!(e instanceof Error)) {
-        // Error型でない場合は、適切なエラー処理を行う
         console.error("予期しないエラー:", e);
         throw new Error("予期しないエラーが発生しました。");
       }
+      // quota制限の場合、エラーをerror変数に格納
+      error = e instanceof Error ? e : new Error('quota制限エラー');
     }
   }
 
   if (response) {
     return response
   } else {
-    console.error('すべてのモデルでエラーが発生しました')
     throw error || new Error('応答の生成に失敗しました')
   }
 }
