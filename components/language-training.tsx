@@ -18,40 +18,13 @@ export function LanguageTrainingComponent() {
 
   const levelDescriptions = {
     '1': 'オノマトペを多用した例文を、オノマトペを使わない文章に言い換えるレベルです。',
-    '2': '身近な単語の定義を説明するレベルです。',
-    '3': '高度な語彙と論理的な表現力を鍛えるレベルです。',
+    '2': '役職になりきって身近な単語の定義を説明するレベルです。',
+    '3': 'より複雑な状況での言語表現力を鍛えるレベルです。',
   }
 
   const getQuestion = async (level: string) => {
     setIsLoading(true)
     let prompt = ''
-    const explainers = [
-      "新入社員", "小学校の先生",
-      "祖父母", "ペットショップ店員", "ミュージシャン",
-      "ホテルのフロントスタッフ", "料理人", 
-    ];
-    
-    const listeners = [
-      "先輩社員", "小学生",  "料理初心者", "一般市民",
-      "非技術者の同僚", "お客様", "外国人観光客", "ファン", 
-      "地域住民", "小学3年生", "孫", "初めてペットを飼う人",
-      "ジム初心者", "依頼人", "車のオーナー", "家を探している人",
-      "投資初心者", "大学生", "目撃者", "子供たち", "入院患者",
-      "ペットの飼い主", "モデル", "施主", "音楽教室の生徒", "読者",
-      "俳優", "海外からのビジネスマン", "観光客", "新婚夫婦", "友達",
-    ];
-    
-    function getRandomExplainer() {
-      const randomIndex = Math.floor(Math.random() * explainers.length);
-      return explainers[randomIndex];
-    }
-    
-    function getRandomListener() {
-      const randomIndex = Math.floor(Math.random() * listeners.length);
-      return listeners[randomIndex];
-    }  
-    
-    
     if (level === '1') {
       const examples = [
         "キッチン用品：あの、シュッシュッてする、泡立てるやつ、どこにある？",
@@ -84,7 +57,7 @@ export function LanguageTrainingComponent() {
 1. 毎回異なる場面や状況を想定し、多様な例文を作成してください。
 2. 使用するオノマトペは、動物の鳴き声、自然現象、人間の動作や感情など、幅広い種類から選んでください。
 3. 文章の長さや複雑さにも変化をつけてください。
-4. 次はオノマトペの例です。${examples}
+4. 次は例文です。${examples}
 
 問題文は以下の形式で出力してください：
 
@@ -96,39 +69,124 @@ export function LanguageTrainingComponent() {
 
 回答例は出さないでください。`
 } else if (level === '2') {
-  const explainer = getRandomExplainer();
-  const listener = getRandomListener();
+  const scenarios = [
+    { explainer: "新入社員", listener: "先輩社員" },
+    { explainer: "小学校の先生", listener: "小学生" },
+    { explainer: "医者", listener: "患者" },
+    { explainer: "シェフ", listener: "料理初心者" },
+    { explainer: "宇宙飛行士", listener: "一般市民" },
+    { explainer: "プログラマー", listener: "非技術者の同僚" },
+    { explainer: "美容師", listener: "お客様" },
+    { explainer: "旅行ガイド", listener: "外国人観光客" },
+    { explainer: "スポーツ選手", listener: "ファン" },
+    { explainer: "考古学者", listener: "博物館来場者" },
+    { explainer: "環境活動家", listener: "地域住民" },
+    { explainer: "小学校の先生", listener: "小学3年生" },
+    { explainer: "祖父母", listener: "孫" },
+    { explainer: "ペットショップ店員", listener: "初めてペットを飼う人" },
+    { explainer: "図書館司書", listener: "図書館利用者" },
+    { explainer: "フィットネスインストラクター", listener: "ジム初心者" },
+    { explainer: "気象予報士", listener: "テレビ視聴者" },
+    { explainer: "パイロット", listener: "乗客" },
+    { explainer: "税理士", listener: "個人事業主" },
+    { explainer: "保険外交員", listener: "契約者" },
+    { explainer: "教師", listener: "保護者" },
+    { explainer: "ボランティア", listener: "イベント参加者" },
+    { explainer: "社会福祉士", listener: "相談者" },
+    { explainer: "介護士", listener: "高齢者" },
+    { explainer: "保育士", listener: "園児の保護者" },
+    { explainer: "ネイリスト", listener: "ネイルサロンのお客様" },
+    { explainer: "バリスタ", listener: "カフェの客" },
+    { explainer: "ソメリエ", listener: "レストランの客" },
+    { explainer: "パン職人", listener: "パン愛好家" },
+    { explainer: "陶芸家", listener: "陶芸教室の生徒" },
+    { explainer: "画家", listener: "ギャラリー来場者" },
+    { explainer: "彫刻家", listener: "美術学生" },
+    { explainer: "作曲家", listener: "オーケストラのメンバー" },
+    { explainer: "劇作家", listener: "舞台役者" },
+    { explainer: "編集者", listener: "新人記者" },
+    { explainer: "研究者", listener: "学会発表の聴衆" },
+    { explainer: "コンサルタント", listener: "企業経営者" },
+    { explainer: "マーケター", listener: "新製品開発チーム" },
+    { explainer: "人事担当者", listener: "採用面接者" },
+    { explainer: "営業担当者", listener: "顧客" },
+    { explainer: "カスタマーサポート", listener: "製品利用者" },
+    { explainer: "占い師", listener: "相談者" },
+    
+  ];
+  const selectedScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+
   prompt = `身近な単語の定義を説明する問題を1つ出題してください。以下の点に注意してください：
 1. 毎回異なるカテゴリーから単語を選んでください（例：日用品、食べ物、自然現象、抽象概念など）。
 2. 難易度に変化をつけ、簡単な単語から少し難しい単語まで幅広く出題してください。
 3. 文化的な背景や用途、特徴など、多角的な視点から定義できる単語を選んでください。
 4. 説明する人と説明される人の役職や関係性は以下の設定を使用してください：
-- 説明する人: ${explainer}
-- 説明される人: ${listener}
+- 説明する人: ${selectedScenario.explainer}
+- 説明される人: ${selectedScenario.listener}
 5. 設定した役職や関係性に応じて、適切な言葉遣いや説明の深さを調整してください。
 
 問題文は以下の形式で出力してください：
 
 ## 単語定義問題
 
-あなたは${explainer}で、${listener}に以下の単語を説明してください：
+あなたは${selectedScenario.explainer}で、${selectedScenario.listener}に以下の単語を説明してください：
 
 [単語]
 
 回答例は出さないでください。`
-    } else {
-      prompt = `高度な語彙と論理的な表現力を鍛えるレベル3の問題を1つ出題してください。以下の点に注意してください：
-1. 毎回異なるタイプの問題を考えてください（例：言い換え、要約、論述、比較分析など）。
-2. 様々な分野や話題を扱い、幅広い知識や思考力を要する問題を作成してください。
-3. 問題の難易度や複雑さに変化をつけてください。
+    } else if (level === '3') {
+      const topics = [
+        "日用品", "食べ物", "自然現象", "抽象概念", "感情", "文化", "歴史", "科学", "技術", "芸術", "スポーツ", "経済", "政治", "社会", "教育",
+        "哲学", "宗教", "心理学", "生物学", "物理学", "化学", "地学", "天文学", "医学", "法律", "環境問題", "国際関係", "ジェンダー", "人権", "倫理", "ファッション", "音楽", "映画", "文学", "ゲーム", "旅行", "料理", "動物", "植物", "宇宙", "都市", "地方", "伝統", "未来予測", "超常現象", "ミステリー", "ファンタジー", "SF"
+      ];
+      const selectedTopic = topics[Math.floor(Math.random() * topics.length)];
+
+      const whens = [
+        '夏でとても暑い', '仕事をしている時', '出かけようか迷っている時', '朝起きてすぐ', '夜中に目が覚めた時',
+        '雨が降っている', '雪が積もっている', '休日の午後', '満員電車の中', '会議中',
+        '食事の準備をしている時', '運動中', '読書中', '映画を見ている時', '友人と話している時',
+        '旅行中', '買い物中', '掃除をしている時', '入浴中', '散歩中',
+    
+      ];
+      const selectedWhen = whens[Math.floor(Math.random() * whens.length)];
+
+      const wheres = [
+        '山', 'オフィス', 'スポーツジム', '町中', '自宅', '海辺', '公園', '図書館', '学校', 'カフェ',
+        'レストラン', '病院', '空港', '駅', 'ショッピングモール', '美術館', '動物園', '遊園地', '映画館', 'ホテル',
+        '劇場', '寺院', '神社', '博物館', '競技場', '工場', '農場', '森', '川', '湖',
+    
+      ];
+      const selectedWhere = wheres[Math.floor(Math.random() * wheres.length)];
+
+      const whos = [
+        '会社員', 'OL', 'おじいさん', '大学生', '警察官', '医者', '教師', '主婦', '子供', 'サラリーマン',
+        'アーティスト', '科学者', '政治家', '農家', '漁師', '料理人', '俳優', '歌手', 'プログラマー', '建築家',
+        '弁護士', '看護師', '消防士', '運転手', '美容師', '写真家', 'デザイナー', 'スポーツ選手', '記者', '旅行ガイド',
+        
+      ];
+      const selectedWho = whos[Math.floor(Math.random() * whos.length)];
+
+
+      prompt = `身近な単語の定義を説明する問題を1つ出題してください。
+
+以下の指示に従ってください：
+
+1. カテゴリー: ${selectedTopic}
+2. 説明の場面：${selectedWhen}の${selectedWhere}において
+3. 説明の対象：${selectedWho}に説明する
+4. 難易度に変化をつけ、簡単な単語から少し難しい単語まで幅広く出題してください。
+5. 文化的な背景や用途、特徴など、多角的な視点から定義できる単語を選んでください。
+
 
 問題文は以下の形式で出力してください：
 
-# [問題タイプ]
+## 単語定義問題
 
-[具体的な問題文]
+${selectedWhen}の${selectedWhere}において、${selectedWho}に以下の単語を説明してください：
 
-回答例は出さないでください。また、絵や画像を使用する問題は避け、テキストのみで回答できる問題を出題してください。`
+[単語]
+
+回答例は出さないでください。`
     }
     const response = await getGeminiResponse(prompt)
     setQuestion(response)
