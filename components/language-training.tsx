@@ -54,26 +54,56 @@ export function LanguageTrainingComponent() {
       ];
       const selectedExample = examples[Math.floor(Math.random() * examples.length)];
 
-      prompt = `オノマトペを極端に多用した例文を1つ作成し、それをオノマトペを使わない文章に言い換える問題を出題してください。
+      prompt = `オノマトペを極端に多用した例文を1つ作成し、それをオノマトペを使わない文章に言い換える問題を出題してください。以下の点に注意してください：
+1. 毎回異なる場面や状況を想定し、多様な例文を作成してください。
+2. 使用するオノマトペは、動物の鳴き声、自然現象、人間の動作や感情など、幅広い種類から選んでください。
+3. 文章の長さや複雑さにも変化をつけてください。
+4. 次は例文です。${selectedExample}
+
+問題文は以下の形式で出力してください：
 
 ## オノマトペ言い換え問題
 
-次の文章のオノマトペを使わない表現に言い換えてください：
+次の文章のオノマトペを使わない表現に言い換えて、要約した文章にしてください：
 
-${selectedExample}
+[オノマトペを含む文章。2文程度]
 
 回答例は出さないでください。`
-    } else if (level === '2') {
-      prompt = `身近な単語の定義を説明する問題を1つ出題してください。以下の点に注意してください：
+} else if (level === '2') {
+  const scenarios = [
+    { explainer: "新入社員", listener: "先輩社員" },
+    { explainer: "小学校の先生", listener: "小学生" },
+    { explainer: "医者", listener: "患者" },
+    { explainer: "シェフ", listener: "料理初心者" },
+    { explainer: "宇宙飛行士", listener: "一般市民" },
+    { explainer: "プログラマー", listener: "非技術者の同僚" },
+    { explainer: "美容師", listener: "お客様" },
+    { explainer: "旅行ガイド", listener: "外国人観光客" },
+    { explainer: "スポーツ選手", listener: "ファン" },
+    { explainer: "考古学者", listener: "博物館来場者" },
+    { explainer: "環境活動家", listener: "地域住民" },
+    { explainer: "小学校の先生", listener: "小学3年生" },
+    { explainer: "祖父母", listener: "孫" },
+    { explainer: "ペットショップ店員", listener: "初めてペットを飼う人" },
+    { explainer: "図書館司書", listener: "図書館利用者" },
+    { explainer: "フィットネスインストラクター", listener: "ジム初心者" }
+  ];
+  const selectedScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+
+  prompt = `身近な単語の定義を説明する問題を1つ出題してください。以下の点に注意してください：
 1. 毎回異なるカテゴリーから単語を選んでください（例：日用品、食べ物、自然現象、抽象概念など）。
 2. 難易度に変化をつけ、簡単な単語から少し難しい単語まで幅広く出題してください。
 3. 文化的な背景や用途、特徴など、多角的な視点から定義できる単語を選んでください。
+4. 説明する人と説明される人の役職や関係性は以下の設定を使用してください：
+- 説明する人: ${selectedScenario.explainer}
+- 説明される人: ${selectedScenario.listener}
+5. 設定した役職や関係性に応じて、適切な言葉遣いや説明の深さを調整してください。
 
 問題文は以下の形式で出力してください：
 
 ## 単語定義問題
 
-次の単語の定義を、できるだけ分かりやすく説明してください：
+あなたは${selectedScenario.explainer}で、${selectedScenario.listener}に以下の単語を説明してください：
 
 [単語]
 
@@ -110,7 +140,7 @@ ${selectedExample}
 
 この回答に対する評価とアドバイスを100点満点の点数とともに、以下の点に注意して記述してください。
 ${levelDescriptions[selectedLevel as keyof typeof levelDescriptions]}
-評価は言語能力と表現力に焦点を当て、絵や画像に関する言及は避けてください。
+評価は言語能力と表現力に焦点を当て、必ずマークダウン形式でお願いします。
 
 * まず、回答の良い点を具体的に挙げて褒めてください。その際、猫の絵文字（🐱😺😸😹😻😼😽🙀😿😾）を適切に使用してください。
 * 改善点がある場合は、「ここをもう少し工夫すると、さらによくなりますよ」というポジティブな表現で提案してください。
