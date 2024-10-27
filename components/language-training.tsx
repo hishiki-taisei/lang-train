@@ -25,6 +25,33 @@ export function LanguageTrainingComponent() {
   const getQuestion = async (level: string) => {
     setIsLoading(true)
     let prompt = ''
+    const explainers = [
+      "新入社員", "小学校の先生",
+      "祖父母", "ペットショップ店員", "ミュージシャン",
+      "ホテルのフロントスタッフ", "料理人", 
+    ];
+    
+    const listeners = [
+      "先輩社員", "小学生",  "料理初心者", "一般市民",
+      "非技術者の同僚", "お客様", "外国人観光客", "ファン", 
+      "地域住民", "小学3年生", "孫", "初めてペットを飼う人",
+      "ジム初心者", "依頼人", "車のオーナー", "家を探している人",
+      "投資初心者", "大学生", "目撃者", "子供たち", "入院患者",
+      "ペットの飼い主", "モデル", "施主", "音楽教室の生徒", "読者",
+      "俳優", "海外からのビジネスマン", "観光客", "新婚夫婦", "友達",
+    ];
+    
+    function getRandomExplainer() {
+      const randomIndex = Math.floor(Math.random() * explainers.length);
+      return explainers[randomIndex];
+    }
+    
+    function getRandomListener() {
+      const randomIndex = Math.floor(Math.random() * listeners.length);
+      return listeners[randomIndex];
+    }  
+    
+    
     if (level === '1') {
       const examples = [
         "キッチン用品：あの、シュッシュッてする、泡立てるやつ、どこにある？",
@@ -52,13 +79,12 @@ export function LanguageTrainingComponent() {
         "少し高度な表現：カサカサしてる袋にパラパラ入ってるお菓子",
         "少し高度な表現：チクッと刺して、服にブスッとつけるやつ",
       ];
-      const selectedExample = examples[Math.floor(Math.random() * examples.length)];
-
+      
       prompt = `オノマトペを極端に多用した例文を1つ作成し、それをオノマトペを使わない文章に言い換える問題を出題してください。以下の点に注意してください：
 1. 毎回異なる場面や状況を想定し、多様な例文を作成してください。
 2. 使用するオノマトペは、動物の鳴き声、自然現象、人間の動作や感情など、幅広い種類から選んでください。
 3. 文章の長さや複雑さにも変化をつけてください。
-4. 次は例文です。${selectedExample}
+4. 次はオノマトペの例です。${examples}
 
 問題文は以下の形式で出力してください：
 
@@ -70,40 +96,20 @@ export function LanguageTrainingComponent() {
 
 回答例は出さないでください。`
 } else if (level === '2') {
-  const scenarios = [
-    { explainer: "新入社員", listener: "先輩社員" },
-    { explainer: "小学校の先生", listener: "小学生" },
-    { explainer: "医者", listener: "患者" },
-    { explainer: "シェフ", listener: "料理初心者" },
-    { explainer: "宇宙飛行士", listener: "一般市民" },
-    { explainer: "プログラマー", listener: "非技術者の同僚" },
-    { explainer: "美容師", listener: "お客様" },
-    { explainer: "旅行ガイド", listener: "外国人観光客" },
-    { explainer: "スポーツ選手", listener: "ファン" },
-    { explainer: "考古学者", listener: "博物館来場者" },
-    { explainer: "環境活動家", listener: "地域住民" },
-    { explainer: "小学校の先生", listener: "小学3年生" },
-    { explainer: "祖父母", listener: "孫" },
-    { explainer: "ペットショップ店員", listener: "初めてペットを飼う人" },
-    { explainer: "図書館司書", listener: "図書館利用者" },
-    { explainer: "フィットネスインストラクター", listener: "ジム初心者" }
-  ];
-  const selectedScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-
   prompt = `身近な単語の定義を説明する問題を1つ出題してください。以下の点に注意してください：
 1. 毎回異なるカテゴリーから単語を選んでください（例：日用品、食べ物、自然現象、抽象概念など）。
 2. 難易度に変化をつけ、簡単な単語から少し難しい単語まで幅広く出題してください。
 3. 文化的な背景や用途、特徴など、多角的な視点から定義できる単語を選んでください。
 4. 説明する人と説明される人の役職や関係性は以下の設定を使用してください：
-- 説明する人: ${selectedScenario.explainer}
-- 説明される人: ${selectedScenario.listener}
+- 説明する人: ${getRandomExplainer()}
+- 説明される人: ${getRandomListener()}
 5. 設定した役職や関係性に応じて、適切な言葉遣いや説明の深さを調整してください。
 
 問題文は以下の形式で出力してください：
 
 ## 単語定義問題
 
-あなたは${selectedScenario.explainer}で、${selectedScenario.listener}に以下の単語を説明してください：
+あなたは${getRandomExplainer()}で、${getRandomListener()}に以下の単語を説明してください：
 
 [単語]
 
