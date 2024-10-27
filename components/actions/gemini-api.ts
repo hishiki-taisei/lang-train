@@ -35,13 +35,14 @@ export async function getGeminiResponse(prompt: string) {
       response = await result.response.text()
       break // 成功したら次のモデルは試さない
     } catch (e) {
-      error = e as Error
-      console.error(`${modelName} でエラーが発生しました:`, e)
-      // エラーが使用制限に関するものでない場合は、即座にエラーを投げる
-      if (!e.toString().includes('quota')) {
-        throw e
+      console.error(`${modelName} でエラーが発生しました:`, e);
+      if (e instanceof Error && !e.toString().includes('quota')) {
+        throw e;
+      } else if (!(e instanceof Error)) {
+        // Error型でない場合は、適切なエラー処理を行う
+        console.error("予期しないエラー:", e);
+        throw new Error("予期しないエラーが発生しました。");
       }
-      // 使用制限エラーの場合は次のモデルを試す
     }
   }
 
