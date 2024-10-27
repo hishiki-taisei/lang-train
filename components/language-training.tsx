@@ -96,20 +96,22 @@ export function LanguageTrainingComponent() {
 
 回答例は出さないでください。`
 } else if (level === '2') {
+  const explainer = getRandomExplainer();
+  const listener = getRandomListener();
   prompt = `身近な単語の定義を説明する問題を1つ出題してください。以下の点に注意してください：
 1. 毎回異なるカテゴリーから単語を選んでください（例：日用品、食べ物、自然現象、抽象概念など）。
 2. 難易度に変化をつけ、簡単な単語から少し難しい単語まで幅広く出題してください。
 3. 文化的な背景や用途、特徴など、多角的な視点から定義できる単語を選んでください。
 4. 説明する人と説明される人の役職や関係性は以下の設定を使用してください：
-- 説明する人: ${getRandomExplainer()}
-- 説明される人: ${getRandomListener()}
+- 説明する人: ${explainer}
+- 説明される人: ${listener}
 5. 設定した役職や関係性に応じて、適切な言葉遣いや説明の深さを調整してください。
 
 問題文は以下の形式で出力してください：
 
 ## 単語定義問題
 
-あなたは${getRandomExplainer()}で、${getRandomListener()}に以下の単語を説明してください：
+あなたは${explainer}で、${listener}に以下の単語を説明してください：
 
 [単語]
 
