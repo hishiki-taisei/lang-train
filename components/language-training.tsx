@@ -70,7 +70,7 @@ export function LanguageTrainingComponent() {
 回答例は出さないでください。`
 } else if (level === '2') {
   const scenarios = [
-    { explainer: "新入社員", listener: "先輩社員" },
+    { explainer: "新入社員", listener: "先輩社員" },v b
     { explainer: "小学校の先生", listener: "小学生" },
     { explainer: "医者", listener: "患者" },
     { explainer: "シェフ", listener: "料理初心者" },
